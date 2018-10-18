@@ -119,7 +119,11 @@ However for a preliminary analysis, a simpler model $S_{\phi}(f)=b_0 \, f^{0} + 
 
 \item \textsl{detection noise:} this is due to the opto-electronic read-out system. In spite of the several phenomena involved for a complete noise description (shot noise, flickering,...) we choose a simplified model for a preliminary analysis as above. This takes  into account the only contribution of the white noise. In particular, the four channels are considered uncorrelated i.e. each one is characterized by a single white noise random process. 
 
-\item \textsl{quantization noise:} this phenomenon arises from the ADC process.
+\item \textsl{quantization noise:} this phenomenon arises from the ADC process. A correspondence between the time and frequency domains is quite complex to be derived, but the frequency spectrum can be assumed flat (i.e. quantization noise becomes white) for the whiteness condition \footnote{Eq (20.54) of http://oldweb.mit.bme.hu/books/quantization/spectrum.pdf}:
+\begin{equation}
+f_s<9.2 \frac{\sigma_x}{q}BW=9.2\frac{1}{\sqrt{12}}BW\approx 2.7BW
+\end{equation}
+The condition can be satisfied for an observed signal with a frequencies components which extend up to near the nyquist frequency.
 
 \end{itemize}
 
@@ -130,10 +134,11 @@ The magnitudes of the amplitudes $A_{\text{wn}}$ and $A_{\text{rn}}$ are determi
 \begin{table}[htb]
 \centering
 \begin{tabular}{cccll}
-\cline{1-3}
-\multicolumn{1}{|c|}{}                                                      & \multicolumn{1}{c|}{Amplitude} & \multicolumn{1}{c|}{PSD} &  &  \\ \cline{1-3}
-\multicolumn{1}{|c|}{\begin{tabular}[c]{@{}c@{}}white\\ noise\end{tabular}} & \multicolumn{1}{c|}{$\sqrt{\frac{b_0 f_s}{2}}$ \SI{}{(\radian)}}          & \multicolumn{1}{c|}{$b_0$ \SI{}{(\radian\squared\per\hertz})}      &  &  \\ \cline{1-3}
-\multicolumn{1}{|c|}{\begin{tabular}[c]{@{}c@{}}random\\ walk\end{tabular}} & \multicolumn{1}{c|}{$\sqrt{\frac{2 \pi^2 b_2}{f_s}}$ \SI{}{(\radian)}}          & \multicolumn{1}{c|}{$b_2(1)^{-2}=b_2$ \SI{}{(\radian\squared\per\hertz})}       &  &  \\ \cline{1-3}
+\cline{1-4}
+\multicolumn{1}{|c|}{}                                                      & \multicolumn{1}{c|}{Amplitude} & \multicolumn{1}{c|}{PSD} & \multicolumn{1}{c|}{Applied to} &  \\ \cline{1-4}
+\multicolumn{1}{|c|}{\begin{tabular}[c]{@{}c@{}}random\\ walk\end{tabular}} & \multicolumn{1}{c|}{$\sqrt{\frac{2 \pi^2 b_2}{f_s}}$ \SI{}{(\radian)}}          & \multicolumn{1}{c|}{$b_2(1)^{-2}=b_2$ \SI{}{(\radian\squared\per\hertz})}       & \multicolumn{1}{c|}{Simul. params} &  \\ \cline{1-4}
+\multicolumn{1}{|c|}{\begin{tabular}[c]{@{}c@{}}white\\ noise\end{tabular}} & \multicolumn{1}{c|}{$\sqrt{\frac{b_0 f_s}{2}}$ \SI{}{(\radian)}}          & \multicolumn{1}{c|}{$b_0$ \SI{}{(\radian\squared\per\hertz})}      & \multicolumn{1}{c|}{Simul. electr. channels} &  \\ \cline{1-4}
+\multicolumn{1}{|c|}{\begin{tabular}[c]{@{}c@{}}quant\\ noise\end{tabular}} & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}      & \multicolumn{1}{c|}{Simul. electr. channels} &  \\ \cline{1-4}
 \multicolumn{1}{l}{}                                                        & \multicolumn{1}{l}{}           & \multicolumn{1}{l}{}       &  & 
 \end{tabular}
 \caption{Amplitude-PSD relation for random processes}
