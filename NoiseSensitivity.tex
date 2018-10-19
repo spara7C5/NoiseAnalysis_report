@@ -85,7 +85,7 @@
 
 \author{Stefano Paracchino} % Your name
 
-\date{October 2018} % Today's date or a custom date
+\date{Update: October 2018} % Today's date or a custom date
 
 
 
@@ -99,6 +99,7 @@
 \pagebreak
 
 \section{Noise sensitivity of the algorithm}
+\subsection{Theoretical background}
 
 Two kinds of random process  (at least)  must be taken into account in order to perform simulations with a good reliability:
 
@@ -123,7 +124,7 @@ However for a preliminary analysis, a simpler model $S_{\phi}(f)=b_0 \, f^{0} + 
 \begin{equation}
 f_s<9.2 \frac{\sigma_x}{q}BW=9.2\frac{1}{\sqrt{12}}BW\approx 2.7BW
 \end{equation}
-The condition can be satisfied for an observed signal with a frequencies components which extend up to near the nyquist frequency.
+The condition can thus be satisfied for an observed signal with frequencies components which extend up to near the nyquist frequency.
 
 \end{itemize}
 
@@ -146,21 +147,72 @@ The magnitudes of the amplitudes $A_{\text{wn}}$ and $A_{\text{rn}}$ are determi
 \end{table}
 \pagebreak
 
-The starting point for our noise sensitivity analysis is the choice of proper values for $b_0$ and $b_2$. Fig(\ref{psd_long}) a typical optical fiber link phase noise spectrum for a long distance distance link  ($\approx 100$ \SI{}{\kilo\meter}) while Fig(\ref{psd_short}) presents the phase noise spectrum obtained via the recovery algorithm, where the total length is limited for testing reason to just  few meters  and for a short distance (few meters).
+The starting point for our noise sensitivity analysis is the choice of proper values for $b_0$ and $b_2$.\\ Fig(\ref{psd_long}) shows a typical optical fiber link phase noise spectrum for an installed long distance optical link  ($\approx 10^2$ \SI{}{\kilo\meter}) while Fig(\ref{psd_short}) presents spectrum obtained via the recovery algorithm in a lab setup, where the total length is limited for testing reasons to just  few meters.\\
+Both show the same "$f^{-2}$ shape" for all the low frequency range and the "flat shape" for the higher one.
+Furthermore the share the same ratio between the phase noise at 1 Hz ($b_2$ value) and the beginning of the white noise plateau which is around $10^{7}-10^{8}$.
+We will therefore model the noise sources of Tab(\ref{pow-amp}) assuming the above power ratio, and we will chose the absolute value for $b_2$ from Fig(\ref{psd_short}). However the spectrum in Fig(\ref{psd_short}) does not represents a "pure" random walk spectrum in fact the phase signal is also formed with an important contribute of low a frequency component (<1 Hz). This component overlaps in the frequency spectrum the random walk spectrum. Therefore a more reliable value for $b_2$ to be adopted in the simulations is around two order of magnitude less than the one obtained in Fig(\ref{psd_short}): 1 \SI{}{(\radian\squared\per\hertz)} $\rightarrow$ 0.01 \SI{}{(\radian\squared\per\hertz)}. (Furthermore i cannot build a random walk process from the plot of Fig(\ref{psd_long}) if we do not know the sampling frequency)
+
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.5]{immagini_noise/noise_long.png}
+\includegraphics[scale=0.45]{immagini_noise/noise_long.png}
 \caption{Phase PSD for a long distance link in a real frequency dissemination system}
 \label{psd_long}
 \end{figure}
 
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=1]{immagini_noise/noise_short.png}
+\includegraphics[scale=0.75]{immagini_noise/noise_short.png}
 \caption{Phase PSD for a long short link in lab environment. (downsampling=2, lowfilter=100kHz)}
 \label{psd_short}
 \end{figure}
 
+\pagebreak
 
+\subsection{Step 1: Random Walk affecting the parameters}
+
+As stated in the previous chapter, we add a random walk noise on all the three parameters $\delta$,$\theta$,$\phi$ as shown. Fig.(\ref{randwalk_par}) shows the result for a simple case where the optical fiber parameters ($\delta$,$\theta$) are simply set to sinusoidal functions while $\phi$ is set to zero (therefore, it becomes a "pure" random walk signal). The correspondent PSD spectrum of $\phi$ is shown in Fig.(\ref{PSD_phi})
+
+\begin{center}
+\begin{figure}[hbtp]
+ \makebox[\textwidth][c]{\includegraphics[width=1.15\textwidth]{immagini_noise/randwalk_par.png}}%
+\caption{Optical fiber parameters ($\delta$,$\theta$) and metrological phase ($\phi$) chosen for the building of a simulated data set. Red circle shows the application of additional random walk noise}
+\label{randwalk_par}
+\end{figure}
+\end{center}
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.8]{immagini_noise/PSD_phi.png}
+\caption{Phase PSD of the simulated data for $\phi$: $b_2$ (i.e. PSD @ 1Hz) corresponds to the chosen value in Fig.(\ref{randwalk_par}). (In this case, the value must be extrapolated due to the low resolution of the psd calculation. A resolution of 1Hz would require 2500000 data for a $F_s$=2500000 Hz)}
+\label{PSD_phi}
+\end{figure}
+
+\subsection{Step 2: Electronic Noise on the DPOH channels}
+
+At this step, the simulator produces the four lists of the Optical Hybrid channels (Fig.\ref{channels}). We then add to the channels respectively four independent white noise, following the assumed criterion $\frac{b_2}{b_0} \approx 10^{8}$ obtaining the data set shown in Fig(\ref{channels_noise})
+
+\begin{center}
+\begin{figure}[hbtp]
+ \makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth]{immagini_noise/channels.png}}%
+\caption{DPOH channels for set of simulated data.}
+\label{channels}
+\end{figure}
+\end{center}
+
+\begin{center}
+\begin{figure}[hbtp]
+ \makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth]{immagini_noise/channels_noise.png}}%
+\caption{DPOH channels for set of simulated data + white noise $10^{-9}$ \SI{}{(\radian\squared\per\hertz)}.}
+\label{channels_noise}
+\end{figure}
+\end{center}
+
+\begin{center}
+\begin{figure}[hbtp]
+ \makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth]{immagini_noise/channels_psd.png}}%
+\caption{.........}
+\label{channels_psd}
+\end{figure}
+\end{center}
 
 \end{document}
